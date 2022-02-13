@@ -60,7 +60,7 @@ void md5_format(char* dst, size_t dstCap, const unsigned char* hash);
 #ifdef __cplusplus
 }
 #endif
-#endif  /* md5_f */
+#endif  /* md5_h */
 
 #if defined(MD5_IMPLEMENTATION)
 #ifndef md5_c
