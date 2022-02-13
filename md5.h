@@ -7,6 +7,7 @@ David Reid - mackron@gmail.com
 /*
 A simple MD5 hashing implementation. Usage:
 
+    unsigned char digest[MD5_SIZE];
     md5_context ctx;
     md5_init(&ctx);
     {
