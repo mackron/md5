@@ -400,7 +400,7 @@ void md5_format(char* dst, size_t dstCap, const unsigned char* hash)
         return;
     }
 
-    if (dstCap < 33) {
+    if (dstCap < MD5_SIZE_FORMATTED) {
         if (dstCap > 0) {
             dst[0] = '\0';
         }
@@ -408,7 +408,7 @@ void md5_format(char* dst, size_t dstCap, const unsigned char* hash)
         return;
     }
 
-    for (i = 0; i < 16; i += 1) {
+    for (i = 0; i < MD5_SIZE; i += 1) {
         md5_format_byte(dst + (i*2), hash[i]);
     }
 
