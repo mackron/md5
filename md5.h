@@ -94,7 +94,7 @@ RFC 1321 - Section 2.
 
     Let X <<< s denote the 32-bit value obtained by circularly shifting (rotating) X left by s bit positions.
 */
-#define MD5_ROTATE_LEFT(x, n)   (x << n) | (x >> (32 - n))
+#define MD5_ROTATE_LEFT(x, n)   (((x) << (n)) | ((x) >> (32 - (n))))
 
 /*
 From appendix in RFC 1321.
@@ -413,7 +413,7 @@ void md5_format(char* dst, size_t dstCap, const unsigned char* hash)
     }
 
     /* Always null terminate. */
-    dst[32] = '\0';
+    dst[MD5_SIZE_FORMATTED-1] = '\0';
 }
 #endif  /* md5_c */
 #endif  /* MD5_IMPLEMENTATION */
