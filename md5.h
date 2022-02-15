@@ -25,7 +25,7 @@ Use `md5_format()` to format the digest as a hex string. The capacity of the out
 be at least `MD5_SIZE_FORMATTED` bytes.
 
 This library does not perform any memory allocations and does not use anything from the standard
-library except for `size_t` and `NULL`, both of which are drawn in via stddef.h. No other standard
+library except for `size_t` and `NULL`, both of which are drawn in from stddef.h. No other standard
 headers are included.
 
 There is no need to link to anything with this library. You can use MD5_IMPLEMENTATION to define
@@ -356,22 +356,10 @@ void md5_finalize(md5_context* ctx, unsigned char* digest)
     md5_update_block(ctx, ctx->cache);
 
     /* Now write out the digest. */
-    digest[ 0] = (unsigned char)(ctx->a >>  0);
-    digest[ 1] = (unsigned char)(ctx->a >>  8);
-    digest[ 2] = (unsigned char)(ctx->a >> 16);
-    digest[ 3] = (unsigned char)(ctx->a >> 24);
-    digest[ 4] = (unsigned char)(ctx->b >>  0);
-    digest[ 5] = (unsigned char)(ctx->b >>  8);
-    digest[ 6] = (unsigned char)(ctx->b >> 16);
-    digest[ 7] = (unsigned char)(ctx->b >> 24);
-    digest[ 8] = (unsigned char)(ctx->c >>  0);
-    digest[ 9] = (unsigned char)(ctx->c >>  8);
-    digest[10] = (unsigned char)(ctx->c >> 16);
-    digest[11] = (unsigned char)(ctx->c >> 24);
-    digest[12] = (unsigned char)(ctx->d >>  0);
-    digest[13] = (unsigned char)(ctx->d >>  8);
-    digest[14] = (unsigned char)(ctx->d >> 16);
-    digest[15] = (unsigned char)(ctx->d >> 24);
+    digest[ 0] = (unsigned char)(ctx->a >> 0); digest[ 1] = (unsigned char)(ctx->a >> 8); digest[ 2] = (unsigned char)(ctx->a >> 16); digest[ 3] = (unsigned char)(ctx->a >> 24);
+    digest[ 4] = (unsigned char)(ctx->b >> 0); digest[ 5] = (unsigned char)(ctx->b >> 8); digest[ 6] = (unsigned char)(ctx->b >> 16); digest[ 7] = (unsigned char)(ctx->b >> 24);
+    digest[ 8] = (unsigned char)(ctx->c >> 0); digest[ 9] = (unsigned char)(ctx->c >> 8); digest[10] = (unsigned char)(ctx->c >> 16); digest[11] = (unsigned char)(ctx->c >> 24);
+    digest[12] = (unsigned char)(ctx->d >> 0); digest[13] = (unsigned char)(ctx->d >> 8); digest[14] = (unsigned char)(ctx->d >> 16); digest[15] = (unsigned char)(ctx->d >> 24);
 }
 
 void md5(unsigned char* digest, const void* src, size_t sz)
