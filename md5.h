@@ -43,10 +43,16 @@ extern "C" {
 #define MD5_SIZE            16
 #define MD5_SIZE_FORMATTED  33
 
+#if defined(_MSC_VER)
+    typedef unsigned __int64   md5_uint64;
+#else
+    typedef unsigned long long md5_uint64;
+#endif
+
 typedef struct
 {
     unsigned int a, b, c, d;    /* Registers. RFC 1321 section 3.3. */
-    unsigned long long sz;      /* 64-bit size. Since this is library operates on bytes, this is a byte count rather than a bit count. */
+    md5_uint64 sz;              /* 64-bit size. Since this is library operates on bytes, this is a byte count rather than a bit count. */
     unsigned char cache[64];    /* The cache will be filled with data, and when full will be processed. */
     unsigned int cacheLen;      /* Number of valid bytes in the cache. */
 } md5_context;
@@ -343,8 +349,8 @@ void md5_finalize(md5_context* ctx, unsigned char* digest)
     /* Now we need to fill the buffer with zeros until we've filled 56 bytes (8 bytes left over for the length). */
     md5_zero_memory(ctx->cache + ctx->cacheLen, cacheRemaining - 8);
 
-    szLo = ((ctx->sz >>  0) & 0xFFFFFFFF) << 3;
-    szHi = ((ctx->sz >> 32) & 0xFFFFFFFF) << 3;
+    szLo = (unsigned int)(((ctx->sz >>  0) & 0xFFFFFFFF) << 3);
+    szHi = (unsigned int)(((ctx->sz >> 32) & 0xFFFFFFFF) << 3);
     ctx->cache[56] = (unsigned char)((szLo >>  0) & 0xFF);
     ctx->cache[57] = (unsigned char)((szLo >>  8) & 0xFF);
     ctx->cache[58] = (unsigned char)((szLo >> 16) & 0xFF);
