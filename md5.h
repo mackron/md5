@@ -40,14 +40,18 @@ extern "C" {
 
 #include <stddef.h> /* For size_t and NULL. */
 
-#define MD5_SIZE            16
-#define MD5_SIZE_FORMATTED  33
-
 #if defined(_MSC_VER)
     typedef unsigned __int64   md5_uint64;
 #else
     typedef unsigned long long md5_uint64;
 #endif
+
+#if !defined(MD5_API)
+    #define MD5_API
+#endif
+
+#define MD5_SIZE            16
+#define MD5_SIZE_FORMATTED  33
 
 typedef struct
 {
@@ -57,11 +61,11 @@ typedef struct
     unsigned int cacheLen;      /* Number of valid bytes in the cache. */
 } md5_context;
 
-void md5_init(md5_context* ctx);
-void md5_update(md5_context* ctx, const void* src, size_t sz);
-void md5_finalize(md5_context* ctx, unsigned char* digest);
-void md5(unsigned char* digest, const void* src, size_t sz);
-void md5_format(char* dst, size_t dstCap, const unsigned char* hash);
+MD5_API void md5_init(md5_context* ctx);
+MD5_API void md5_update(md5_context* ctx, const void* src, size_t sz);
+MD5_API void md5_finalize(md5_context* ctx, unsigned char* digest);
+MD5_API void md5(unsigned char* digest, const void* src, size_t sz);
+MD5_API void md5_format(char* dst, size_t dstCap, const unsigned char* hash);
 
 #ifdef __cplusplus
 }
@@ -249,7 +253,7 @@ static void md5_update_block(md5_context* ctx, const unsigned char* src)
     ctx->cacheLen = 0;
 }
 
-void md5_init(md5_context* ctx)
+MD5_API void md5_init(md5_context* ctx)
 {
     if (ctx == NULL) {
         return;
@@ -265,7 +269,7 @@ void md5_init(md5_context* ctx)
     ctx->sz = 0;
 }
 
-void md5_update(md5_context* ctx, const void* src, size_t sz)
+MD5_API void md5_update(md5_context* ctx, const void* src, size_t sz)
 {
     const unsigned char* bytes = (const unsigned char*)src;
     size_t totalBytesProcessed = 0;
@@ -310,7 +314,7 @@ void md5_update(md5_context* ctx, const void* src, size_t sz)
     ctx->sz += sz;
 }
 
-void md5_finalize(md5_context* ctx, unsigned char* digest)
+MD5_API void md5_finalize(md5_context* ctx, unsigned char* digest)
 {
     size_t cacheRemaining;
     unsigned int szLo;
@@ -368,7 +372,7 @@ void md5_finalize(md5_context* ctx, unsigned char* digest)
     digest[12] = (unsigned char)(ctx->d >> 0); digest[13] = (unsigned char)(ctx->d >> 8); digest[14] = (unsigned char)(ctx->d >> 16); digest[15] = (unsigned char)(ctx->d >> 24);
 }
 
-void md5(unsigned char* digest, const void* src, size_t sz)
+MD5_API void md5(unsigned char* digest, const void* src, size_t sz)
 {
     md5_context ctx;
     md5_init(&ctx);
@@ -386,7 +390,7 @@ static void md5_format_byte(char* dst, unsigned char byte)
     dst[1] = hex[(byte & 0x0F)     ];
 }
 
-void md5_format(char* dst, size_t dstCap, const unsigned char* hash)
+MD5_API void md5_format(char* dst, size_t dstCap, const unsigned char* hash)
 {
     size_t i;
 
