@@ -297,8 +297,8 @@ MD5_API void md5_update(md5_context* ctx, const void* src, size_t sz)
                 }
 
                 md5_copy_memory(ctx->cache + ctx->cacheLen, bytes + totalBytesProcessed, bytesToProcess);
-                ctx->cacheLen       += bytesToProcess;
-                totalBytesProcessed += bytesToProcess;
+                ctx->cacheLen       += (unsigned int)bytesToProcess;    /* Safe cast. bytesToProcess will always be <= sizeof(ctx->cache) which is 64. */
+                totalBytesProcessed +=               bytesToProcess;
 
                 /* Update the number of bytes remaining in the cache so we can use it later. */
                 cacheRemaining = sizeof(ctx->cache) - ctx->cacheLen;
